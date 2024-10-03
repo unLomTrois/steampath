@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "dist/index.js",
     "scripts": {
-        "build": "tsc",
+        "build": "tsup",
         "check-exports": "attw --pack ."
     },
     "author": "",
@@ -13,6 +13,7 @@
         "@arethetypeswrong/cli": "^0.16.4",
         "@types/node": "^22.7.4",
         "prettier": "^3.3.3",
+        "tsup": "^8.3.0",
         "typescript": "^5.6.2"
     }
 }
