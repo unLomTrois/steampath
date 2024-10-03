@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
 
-
 /**
  * Locates the steam directory on a Linux system
  * @throws Error if the steam directory is not found or if the HOME environment variable is not set

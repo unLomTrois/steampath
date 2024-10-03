@@ -3,7 +3,11 @@
     "version": "1.0.0",
     "main": "dist/index.js",
     "scripts": {
+        "ci": "npm run lint && npm run format && npm run build && npm run test",
+        "lint": "eslint src",
+        "format": "prettier --write .",
         "build": "tsup",
+        "test": "",
         "check-exports": "attw --pack ."
     },
     "author": "",
@@ -11,9 +15,13 @@
     "description": "",
     "devDependencies": {
         "@arethetypeswrong/cli": "^0.16.4",
+        "@eslint/js": "^9.11.1",
         "@types/node": "^22.7.4",
+        "eslint": "^9.11.1",
+        "globals": "^15.10.0",
         "prettier": "^3.3.3",
         "tsup": "^8.3.0",
-        "typescript": "^5.6.2"
+        "typescript": "^5.6.2",
+        "typescript-eslint": "^8.8.0"
     }
 }
