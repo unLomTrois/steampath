@@ -1,35 +1,71 @@
 import locateSteamDir from "src";
-import { expect, test, beforeAll, afterAll, describe } from "vitest";
+import { expect, test, beforeEach, afterEach, describe, beforeAll, afterAll } from "vitest";
 import mock from "mock-fs";
 
 const originalPlatform = process.platform;
+const originalHome = process.env.HOME;
 
 describe("locateSteamDir", () => {
-    beforeAll(() => {
+    beforeEach(() => {
+        // Set the HOME environment variable
         process.env.HOME = "/home/user";
 
+        // Mock the platform to be Linux
         Object.defineProperty(process, "platform", {
             value: "linux",
         });
-
-        mock({
-            "/home/user/.steam/steam/steamapps/common/SomeGame": {
-                "game.sh": "echo 'Hello, World!'",
-            },
-        });
     });
 
-    test("should return the path to the steam directory", async () => {
-        const steamDir = await locateSteamDir();
-        expect(steamDir).toMatch(/\/home\/\w+\/\.steam\/steam/);
-    });
-
-    afterAll(() => {
+    afterEach(() => {
+        // Restore the mocked file system
         mock.restore();
 
+        // Restore the original platform
         Object.defineProperty(process, "platform", {
             value: originalPlatform,
         });
+
+        // Restore the original HOME environment variable
+        process.env.HOME = originalHome;
+    });
+
+    test("should locate Steam in standard install directory", async () => {
+        mock({
+            "/home/user/.local/share/Steam": {
+                "steamapps": {},
+            },
+        });
+
+        const steamDir = await locateSteamDir();
+        expect(steamDir).toBe("/home/user/.local/share/Steam");
+    });
+
+    test("should locate Steam in Flatpak install directory", async () => {
+        mock({
+            "/home/user/.var/app/com.valvesoftware.Steam/.local/share/Steam": {
+                "steamapps": {},
+            },
+        });
+
+        const steamDir = await locateSteamDir();
+        expect(steamDir).toBe("/home/user/.var/app/com.valvesoftware.Steam/.local/share/Steam");
+    });
+
+    test("should locate Steam in Snap install directory", async () => {
+        mock({
+            "/home/user/.snap/steam/common/.local/share/Steam": {
+                "steamapps": {},
+            },
+        });
+
+        const steamDir = await locateSteamDir();
+        expect(steamDir).toBe("/home/user/.snap/steam/common/.local/share/Steam");
+    });
+
+    test("should throw an error if Steam directory is not found", async () => {
+        mock({});
+
+        await expect(locateSteamDir()).rejects.toThrow("Steam directory not found");
     });
 });
 
