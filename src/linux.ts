@@ -14,20 +14,17 @@ export async function locateSteamDirLinux(): Promise<string> {
 
     const steamDir = path.join(home, ".steam", "steam");
 
-    const canAccess = fs.access(steamDir, fs.constants.F_OK).then(
+    const canAccess = await fs.access(steamDir, fs.constants.F_OK).then(
         () => true,
         () => false,
     );
 
-    const isDirectory = fs.stat(steamDir).then(
+    const isDirectory = await fs.stat(steamDir).then(
         (stat) => stat.isDirectory(),
         () => false,
     );
 
-    const steamDirExists = await Promise.all([canAccess, isDirectory]).then(
-        ([canAccess, isDirectory]) => canAccess || isDirectory,
-    );
-
+    const steamDirExists = canAccess || isDirectory
     if (!steamDirExists) {
         throw new Error("Steam directory not found");
     }
