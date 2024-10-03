@@ -31,4 +31,5 @@ async function locateSteamDir(): Promise<string> {
     return steamDir;
 }
 
-locateSteamDir().then((dir) => console.log(dir));
+export { locateSteamDir };
+export default locateSteamDir;
