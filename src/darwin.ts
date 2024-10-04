@@ -1,6 +1,5 @@
-import { homedir } from "os";
-import * as path from "path";
-import * as fs from "fs/promises";
+import fs from 'fs';
+import { homedir } from 'os';
 
 /**
  * Locates the Steam directory on a macOS system
@@ -10,21 +9,20 @@ import * as fs from "fs/promises";
 export async function locateSteamDirMacOS(): Promise<string> {
     const home = homedir();
 
-    if (!home) {
-        throw new Error("Home directory not found");
-    }
-
-    // Construct the path to the Steam directory
-    const steamDir = path.join(home, "Library", "Application Support", "Steam");
+    const possiblePaths = [
+        `${home}/Library/Application Support/Steam`,
+        '/Library/Application Support/Steam', // System-wide installation (less common)
+    ];
 
     try {
-        const stat = await fs.stat(steamDir);
-        if (stat.isDirectory()) {
-            return steamDir;
-        }
+        const steamDir = await Promise.any(
+            possiblePaths.map(async (dir) => {
+                await fs.promises.access(dir, fs.constants.F_OK);
+                return dir;
+            })
+        );
+        return steamDir;
     } catch {
-        // Ignore errors if the directory does not exist
+        throw new Error('Steam directory not found');
     }
-
-    throw new Error("Steam directory not found");
 }
