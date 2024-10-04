@@ -1,6 +1,15 @@
 import locateSteamDir from "src";
-import { expect, test, beforeEach, afterEach, describe, beforeAll, afterAll } from "vitest";
-import mock from "mock-fs";
+import {
+    expect,
+    test,
+    beforeEach,
+    afterEach,
+    describe,
+    beforeAll,
+    afterAll,
+    vi,
+} from "vitest";
+import mockFs from "mock-fs";
 
 const originalPlatform = process.platform;
 const originalHome = process.env.HOME;
@@ -18,7 +27,7 @@ describe("locateSteamDir", () => {
 
     afterEach(() => {
         // Restore the mocked file system
-        mock.restore();
+        mockFs.restore();
 
         // Restore the original platform
         Object.defineProperty(process, "platform", {
@@ -30,9 +39,9 @@ describe("locateSteamDir", () => {
     });
 
     test("should locate Steam in standard install directory", async () => {
-        mock({
+        mockFs({
             "/home/user/.local/share/Steam": {
-                "steamapps": {},
+                steamapps: {},
             },
         });
 
@@ -41,31 +50,37 @@ describe("locateSteamDir", () => {
     });
 
     test("should locate Steam in Flatpak install directory", async () => {
-        mock({
+        mockFs({
             "/home/user/.var/app/com.valvesoftware.Steam/.local/share/Steam": {
-                "steamapps": {},
+                steamapps: {},
             },
         });
 
         const steamDir = await locateSteamDir();
-        expect(steamDir).toBe("/home/user/.var/app/com.valvesoftware.Steam/.local/share/Steam");
+        expect(steamDir).toBe(
+            "/home/user/.var/app/com.valvesoftware.Steam/.local/share/Steam",
+        );
     });
 
     test("should locate Steam in Snap install directory", async () => {
-        mock({
+        mockFs({
             "/home/user/.snap/steam/common/.local/share/Steam": {
-                "steamapps": {},
+                steamapps: {},
             },
         });
 
         const steamDir = await locateSteamDir();
-        expect(steamDir).toBe("/home/user/.snap/steam/common/.local/share/Steam");
+        expect(steamDir).toBe(
+            "/home/user/.snap/steam/common/.local/share/Steam",
+        );
     });
 
     test("should throw an error if Steam directory is not found", async () => {
-        mock({});
+        mockFs({});
 
-        await expect(locateSteamDir()).rejects.toThrow("Steam directory not found");
+        await expect(locateSteamDir()).rejects.toThrow(
+            "Steam directory not found",
+        );
     });
 });
 
@@ -77,24 +92,32 @@ describe("locateSteamDir on Windows", () => {
             value: "win32",
         });
 
-        mock({
-            "C:\\Users\\User\\AppData\\Local\\Programs\\SomeGame": {
+        mockFs({
+            "C:\\ProgramFiles (x86)\\Steam\\steamapps\\common\\SomeGame": {
                 "game.sh": "echo 'Hello, World!'",
             },
         });
+
+        vi.mock("../src/utils/getInstallPath.ts", () => ({
+            getInstallPath: vi
+                .fn()
+                .mockReturnValue("C:\\ProgramFiles (x86)\\Steam"),
+        }));
     });
 
     test("should return the path to the steam directory", async () => {
         const steamDir = await locateSteamDir();
-        expect(steamDir).toMatch(/C:\\Users\\\w+\\AppData\\Local\\Programs\\Steam/);
+        expect(steamDir).toMatch(/C:\\ProgramFiles \(x86\)\\Steam/);
     });
 
     afterAll(() => {
-        mock.restore();
+        mockFs.restore();
 
         Object.defineProperty(process, "platform", {
             value: originalPlatform,
         });
+
+        vi.clearAllMocks();
     });
 });
 
@@ -108,20 +131,23 @@ describe("locateSteamDir on macOS", () => {
             value: "darwin",
         });
 
-        mock({
-            "/Users/user/Library/Application Support/Steam/steamapps/common/SomeGame": {
-                "game.sh": "echo 'Hello, World!'",
-            },
+        mockFs({
+            "/Users/user/Library/Application Support/Steam/steamapps/common/SomeGame":
+                {
+                    "game.sh": "echo 'Hello, World!'",
+                },
         });
     });
 
     test("should return the path to the steam directory", async () => {
         const steamDir = await locateSteamDir();
-        expect(steamDir).toMatch(/\/Users\/\w+\/Library\/Application Support\/Steam/);
+        expect(steamDir).toMatch(
+            /\/Users\/\w+\/Library\/Application Support\/Steam/,
+        );
     });
 
     afterAll(() => {
-        mock.restore();
+        mockFs.restore();
 
         Object.defineProperty(process, "platform", {
             value: originalPlatform,

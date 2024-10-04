@@ -24,9 +24,31 @@ export async function locateSteamDirLinux(): Promise<string> {
         path.join(home, ".snap", "steam", "common", ".steam", "steam"),
         path.join(home, ".snap", "steam", "common", ".steam", "root"),
         // Flatpak steam install directories
-        path.join(home, ".var", "app", "com.valvesoftware.Steam", ".local", "share", "Steam"),
-        path.join(home, ".var", "app", "com.valvesoftware.Steam", ".steam", "steam"),
-        path.join(home, ".var", "app", "com.valvesoftware.Steam", ".steam", "root"),
+        path.join(
+            home,
+            ".var",
+            "app",
+            "com.valvesoftware.Steam",
+            ".local",
+            "share",
+            "Steam",
+        ),
+        path.join(
+            home,
+            ".var",
+            "app",
+            "com.valvesoftware.Steam",
+            ".steam",
+            "steam",
+        ),
+        path.join(
+            home,
+            ".var",
+            "app",
+            "com.valvesoftware.Steam",
+            ".steam",
+            "root",
+        ),
     ];
 
     for (const steamDir of possiblePaths) {

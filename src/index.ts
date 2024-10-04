@@ -1,4 +1,4 @@
-import { locateSteamDirDarwin } from "./darwin";
+import { locateSteamDirMacOS } from "./darwin";
 import { locateSteamDirLinux } from "./linux";
 import { locateSteamDirWindows } from "./windows";
 
@@ -21,7 +21,7 @@ async function locateSteamDir(): Promise<string> {
             break;
 
         case "darwin":
-            steamDir = await locateSteamDirDarwin();
+            steamDir = await locateSteamDirMacOS();
             break;
 
         default:
