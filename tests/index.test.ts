@@ -1,4 +1,3 @@
-import locateSteamDir from "src";
 import {
     expect,
     test,
@@ -10,6 +9,7 @@ import {
     vi,
 } from "vitest";
 import mockFs from "mock-fs";
+import { locateSteamDir } from "src/locateSteamDir";
 
 const originalPlatform = process.platform;
 const originalHome = process.env.HOME;
