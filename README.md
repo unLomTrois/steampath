@@ -1,5 +1,6 @@
+# steampath
 
-# Steam Directory Locator
+[![CI](https://github.com/unLomTrois/steampath/actions/workflows/ci.yml/badge.svg)](https://github.com/unLomTrois/steampath/actions/workflows/ci.yml)
 
 An elegant and lightweight Node.js library to locate the Steam installation directory across different operating systems: **Windows**, **Linux**, and **macOS**.
 
