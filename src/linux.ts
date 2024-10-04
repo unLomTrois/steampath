@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import { homedir } from "os";
 import path from "path";
 
 /**
@@ -7,7 +8,7 @@ import path from "path";
  * @returns The path to the steam directory
  */
 export async function locateSteamDirLinux(): Promise<string> {
-    const home = process.env.HOME;
+    const home = homedir();
     if (!home) {
         throw new Error("HOME environment variable not set");
     }
