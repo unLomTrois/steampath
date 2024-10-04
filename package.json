@@ -17,6 +17,10 @@
             "default": "./dist/index.js"
         }
     },
+    "files": [
+        "dist",
+        "package.json"
+    ],
     "author": {
         "email": "vadim.kuz02@gmail.com",
         "name": "Vadim Kuznetsov",
