@@ -1,6 +1,6 @@
 {
     "name": "@unlomtrois/steampath",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "main": "dist/index.js",
     "scripts": {
         "ci": "npm run lint && npm run format && npm run build && npm run test",
@@ -25,7 +25,7 @@
     "engines": {
         "node": ">=20.0.0"
     },
-    "license": "ISC",
+    "license": "MIT",
     "description": "A library for searching steam installation paths",
     "devDependencies": {
         "@arethetypeswrong/cli": "^0.16.4",
@@ -40,5 +40,11 @@
         "typescript": "^5.6.2",
         "typescript-eslint": "^8.8.0",
         "vitest": "^2.1.2"
-    }
+    },
+    "keywords": [
+        "steam",
+        "path",
+        "search",
+        "typescript"
+    ]
 }
