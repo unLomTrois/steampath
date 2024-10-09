@@ -10,6 +10,7 @@ import {
 } from "vitest";
 import mockFs from "mock-fs";
 import { locateSteamDir } from "src/locateSteamDir";
+import { getInstallPath } from "src/utils/getInstallPath";
 
 const originalPlatform = process.platform;
 const originalHome = process.env.HOME;
@@ -188,10 +189,22 @@ describe("locateSteamDir on unsopported platform", () => {
     });
 
     test("should throw an error if Steam directory is not found", async () => {
-        Object.defineProperty(process, "platform", {
-            value: "freebsd",
-        });
-
         await expect(locateSteamDir()).rejects.toThrow("Unsupported platform");
+    });
+});
+
+describe("unmocked getInstallPath", () => {
+    beforeAll(() => {
+        vi.unmock("../src/utils/getInstallPath.ts");
+    });
+
+    test("should throw an error if Steam directory is not found", async (context) => {
+        if (process.platform !== "win32") {
+            context.skip();
+        }
+
+        expect(
+            await getInstallPath("HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam"),
+        ).toBe("C:\\Program Files (x86)\\Steam");
     });
 });
