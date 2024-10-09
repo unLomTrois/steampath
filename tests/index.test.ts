@@ -164,4 +164,12 @@ describe("locateSteamDir on macOS", () => {
             /\/Users\/\w+\/Library\/Application Support\/Steam/,
         );
     });
+
+    test("should throw an error if Steam directory is not found", async () => {
+        mockFs({});
+
+        await expect(locateSteamDir()).rejects.toThrow(
+            "Steam directory not found",
+        );
+    });
 });
