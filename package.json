@@ -7,7 +7,8 @@
         "lint": "eslint src",
         "format": "prettier --write .",
         "build": "tsup",
-        "test": "vitest run",
+        "test": "vitest",
+        "test-ci": "vitest run --coverage",
         "check-exports": "attw --pack ."
     },
     "exports": {
