@@ -11,7 +11,8 @@ export async function findInRegistry(regPath: string): Promise<string | null> {
         if (match && match[1]) {
             return match[1].trim();
         }
-    } catch {
+    } catch (e) {
+        console.warn(e);
         // Ignore errors and return null if the registry key doesn't exist
     }
     return null;

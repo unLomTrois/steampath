@@ -1,5 +1,5 @@
 import { findInRegistry } from "./utils/findInRegistry";
-import fs from "fs/promises";
+import { access, constants } from "node:fs/promises";
 
 /**
  * Locates the Steam directory on a Windows system
@@ -10,8 +10,7 @@ export async function locateSteamDirWindows(): Promise<string> {
     // first, try to check C:\Program Files (x86)\Steam
     const commonPath = "C:\\Program Files (x86)\\Steam";
 
-    const isCommonPath = await fs
-        .access(commonPath, fs.constants.F_OK)
+    const isCommonPath = await access(commonPath, constants.F_OK)
         .then(() => true)
         .catch(() => false);
 
@@ -20,23 +19,33 @@ export async function locateSteamDirWindows(): Promise<string> {
     }
 
     // if not found, try to look for it in windows registry
-    return locateSteamDirWindowsUsingRegistry();
-}
 
-/* using registry */
-async function locateSteamDirWindowsUsingRegistry(): Promise<string> {
-    const REG_STEAM_PATH_32 = "HKLM\\SOFTWARE\\Valve\\Steam";
-    const REG_STEAM_PATH_64 = "HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam";
+    const foundInRegistry = await locateSteamDirWindowsUsingRegistry();
 
-    // Try to get the Steam install path from the registry
-
-    const win32 = await findInRegistry(REG_STEAM_PATH_32);
-    const win64 = await findInRegistry(REG_STEAM_PATH_64);
-    const steamDir = win32 ?? win64;
-
-    if (!steamDir) {
-        throw new Error("Steam directory not found in registry");
+    if (!foundInRegistry) {
+        throw new Error("Steam directory not found");
     }
 
-    return steamDir;
+    return foundInRegistry;
+}
+
+/**
+ * Locates the Steam directory on a Windows system using the registry
+ * @throws Error if the Steam directory is not found in the registry
+ * @returns The path to the Steam directory
+ */
+export async function locateSteamDirWindowsUsingRegistry(): Promise<
+    string | null
+> {
+    if (process.arch === "x64") {
+        return await findInRegistry(
+            "HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam",
+        );
+    }
+
+    if (process.arch === "ia32") {
+        return await findInRegistry("HKLM\\SOFTWARE\\Valve\\Steam");
+    }
+
+    return null;
 }
