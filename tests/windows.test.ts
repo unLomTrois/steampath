@@ -1,7 +1,6 @@
 import { locateSteamDir } from "src";
-import { describe, vi, expect, afterEach, beforeEach, it } from "vitest";
+import { describe,  expect, afterEach, beforeEach, it } from "vitest";
 import mockFs from "mock-fs";
-import { locateSteamDirWindowsUsingRegistry } from "src/windows";
 
 const originalPlatform = process.platform;
 
@@ -10,6 +9,12 @@ describe("locateSteamDir on Windows", () => {
         // todo: replace with mock-os
         process.env.HOME = "C:\\Users\\User";
         process.env.USERPROFILE = "C:\\Users\\User";
+
+        mockFs({
+            "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SomeGame": {
+                "game.sh": "echo 'Hello, World!'",
+            },
+        });
 
         Object.defineProperty(process, "platform", {
             value: "win32",
@@ -25,12 +30,6 @@ describe("locateSteamDir on Windows", () => {
     });
 
     it("should locate Steam directory on Windows", async () => {
-        mockFs({
-            "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SomeGame": {
-                "game.sh": "echo 'Hello, World!'",
-            },
-        });
-
         const steamDir = await locateSteamDir();
         expect(steamDir).toBe("C:\\Program Files (x86)\\Steam");
     });
