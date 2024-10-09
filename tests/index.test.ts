@@ -133,7 +133,7 @@ describe("locateSteamDir on macOS", () => {
     beforeAll(() => {
         // Set the HOME environment variable
         // todo: replace with mock-os
-        process.env.HOME = "/home/user";
+        process.env.HOME = "/Users/user";
         process.env.USERPROFILE = "/Users/user";
 
         Object.defineProperty(process, "platform", {
