@@ -19,7 +19,7 @@ An elegant and lightweight Node.js library to locate the Steam installation dire
 Install the package via npm:
 
 ```bash
-npm install steam-directory-locator
+npm install @unlomtrois/steampath
 ```
 
 ## Usage
@@ -27,7 +27,7 @@ npm install steam-directory-locator
 Import the library and use the `locateSteamDir` function to get the Steam directory path:
 
 ```typescript
-import { locateSteamDir } from 'steam-directory-locator';
+import { locateSteamDir } from '@unlomtrois/steampath';
 
 (async () => {
     try {
@@ -48,7 +48,7 @@ If you need to target a specific operating system, you can use the platform-spec
 - **macOS**: `locateSteamDirMacOS()`
 
 ```typescript
-import { locateSteamDirWindows } from 'steam-directory-locator';
+import { locateSteamDirWindows } from '@unlomtrois/steampath';
 
 (async () => {
     try {
