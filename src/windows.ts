@@ -15,8 +15,6 @@ export async function locateSteamDirWindows(): Promise<string> {
     const win64 = await getInstallPath(REG_STEAM_PATH_64);
     const steamDir = win32 ?? win64;
 
-    console.log(steamDir, win32, win64);
-
     if (!steamDir) {
         throw new Error("Steam directory not found in registry");
     }
