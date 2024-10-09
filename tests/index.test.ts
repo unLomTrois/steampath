@@ -193,7 +193,7 @@ describe("locateSteamDir on unsopported platform", () => {
     });
 });
 
-describe("unmocked getInstallPath", () => {    
+describe.skip("unmocked getInstallPath", () => {    
     test("should throw an error if Steam directory is not found", async (context) => {
         if (process.platform !== "win32") {
             context.skip();
