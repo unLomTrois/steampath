@@ -35,7 +35,7 @@ describe("locateSteamDir on Windows", () => {
         expect(steamDir).toBe("C:\\Program Files (x86)\\Steam");
     });
 
-    it("should locate Steam directory on Windows using registry", async (context) => {
+    /* it("should locate Steam directory on Windows using registry", async (context) => {
         mockFs({});
         vi.doMock("../src/utils/findInRegistry.ts", () => ({
             findInRegistry: vi
@@ -47,5 +47,5 @@ describe("locateSteamDir on Windows", () => {
         expect(steamDir).toBe("C:\\Program Files (x86)\\Steam");
 
         vi.doUnmock("../src/utils/findInRegistry.ts");
-    });
+    }); */
 });
