@@ -107,13 +107,13 @@ describe("locateSteamDir on Windows", () => {
         vi.mock("../src/utils/getInstallPath.ts", () => ({
             getInstallPath: vi
                 .fn()
-                .mockReturnValue("C:\\ProgramFiles (x86)\\Steam"),
+                .mockReturnValue("C:\\Program Files (x86)\\Steam"),
         }));
     });
 
     test("should return the path to the steam directory", async () => {
         const steamDir = await locateSteamDir();
-        expect(steamDir).toMatch(/C:\\ProgramFiles \(x86\)\\Steam/);
+        expect(steamDir).toBe("C:\\Program Files (x86)\\Steam");
     });
 
     afterAll(() => {
