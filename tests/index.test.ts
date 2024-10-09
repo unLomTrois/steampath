@@ -105,7 +105,7 @@ describe("locateSteamDir on Windows", () => {
             },
         });
 
-        vi.mock("../src/utils/getInstallPath.ts", () => ({
+        vi.doMock("../src/utils/getInstallPath.ts", () => ({
             getInstallPath: vi
                 .fn()
                 .mockReturnValue("C:\\Program Files (x86)\\Steam"),
@@ -125,6 +125,7 @@ describe("locateSteamDir on Windows", () => {
         });
 
         vi.clearAllMocks();
+        vi.doUnmock("../src/utils/getInstallPath.ts");
     });
 });
 
@@ -193,7 +194,7 @@ describe("locateSteamDir on unsopported platform", () => {
     });
 });
 
-/* describe.skip("unmocked getInstallPath", () => {    
+describe.skip("unmocked getInstallPath", () => {    
     test("should throw an error if Steam directory is not found", async (context) => {
         if (process.platform !== "win32") {
             context.skip();
@@ -207,4 +208,3 @@ describe("locateSteamDir on unsopported platform", () => {
         ).toBe("C:\\Program Files (x86)\\Steam");
     });
 });
- */
