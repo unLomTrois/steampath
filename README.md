@@ -6,13 +6,13 @@ An elegant and lightweight Node.js library to locate the Steam installation dire
 
 ## Features
 
-- **Cross-Platform Support**: Works seamlessly on Windows, Linux, and macOS.
-- **Automatic Detection**: Finds the Steam directory without any user configuration.
-- **Handles Multiple Install Scenarios**:
-  - Standard installations
-  - Flatpak and Snap installations on Linux
-  - System-wide and user-specific installations on macOS
-- **Asynchronous**: Utilizes modern async/await syntax for non-blocking operations.
+-   **Cross-Platform Support**: Works seamlessly on Windows, Linux, and macOS.
+-   **Automatic Detection**: Finds the Steam directory without any user configuration.
+-   **Handles Multiple Install Scenarios**:
+    -   Standard installations
+    -   Flatpak and Snap installations on Linux
+    -   System-wide and user-specific installations on macOS
+-   **Asynchronous**: Utilizes modern async/await syntax for non-blocking operations.
 
 ## Installation
 
@@ -27,7 +27,7 @@ npm install @unlomtrois/steampath
 Import the library and use the `locateSteamDir` function to get the Steam directory path:
 
 ```typescript
-import { locateSteamDir } from '@unlomtrois/steampath';
+import { locateSteamDir } from "@unlomtrois/steampath";
 
 (async () => {
     try {
@@ -43,12 +43,12 @@ import { locateSteamDir } from '@unlomtrois/steampath';
 
 If you need to target a specific operating system, you can use the platform-specific functions:
 
-- **Windows**: `locateSteamDirWindows()`
-- **Linux**: `locateSteamDirLinux()`
-- **macOS**: `locateSteamDirMacOS()`
+-   **Windows**: `locateSteamDirWindows()`
+-   **Linux**: `locateSteamDirLinux()`
+-   **macOS**: `locateSteamDirMacOS()`
 
 ```typescript
-import { locateSteamDirWindows } from '@unlomtrois/steampath';
+import { locateSteamDirWindows } from "@unlomtrois/steampath";
 
 (async () => {
     try {
@@ -66,41 +66,41 @@ import { locateSteamDirWindows } from '@unlomtrois/steampath';
 
 Locates the Steam directory based on the current operating system.
 
-- **Returns**: A promise that resolves to the path of the Steam directory.
-- **Throws**: An error if the Steam directory is not found or the platform is unsupported.
+-   **Returns**: A promise that resolves to the path of the Steam directory.
+-   **Throws**: An error if the Steam directory is not found or the platform is unsupported.
 
 ### `locateSteamDirWindows(): Promise<string>`
 
 Locates the Steam directory on a Windows system.
 
-- **Returns**: A promise that resolves to the path of the Steam directory.
-- **Throws**: An error if the Steam directory is not found in the registry.
+-   **Returns**: A promise that resolves to the path of the Steam directory.
+-   **Throws**: An error if the Steam directory is not found in the registry.
 
 ### `locateSteamDirLinux(): Promise<string>`
 
 Locates the Steam directory on a Linux system.
 
-- **Returns**: A promise that resolves to the path of the Steam directory.
-- **Throws**: An error if the Steam directory is not found.
+-   **Returns**: A promise that resolves to the path of the Steam directory.
+-   **Throws**: An error if the Steam directory is not found.
 
 ### `locateSteamDirMacOS(): Promise<string>`
 
 Locates the Steam directory on a macOS system.
 
-- **Returns**: A promise that resolves to the path of the Steam directory.
-- **Throws**: An error if the Steam directory is not found.
+-   **Returns**: A promise that resolves to the path of the Steam directory.
+-   **Throws**: An error if the Steam directory is not found.
 
 ## Details
 
-- **Windows Implementation**:
-  - Queries the Windows Registry to find the Steam installation path.
-  - Supports both 32-bit and 64-bit registry hives.
-- **Linux Implementation**:
-  - Checks multiple common installation paths, including standard, Flatpak, and Snap directories.
-  - Uses parallel asynchronous checks for efficient detection.
-- **macOS Implementation**:
-  - Looks for the Steam directory in the user's `Library/Application Support` folder.
-  - Also checks the system-wide `Library/Application Support` directory.
+-   **Windows Implementation**:
+    -   Queries the Windows Registry to find the Steam installation path.
+    -   Supports both 32-bit and 64-bit registry hives.
+-   **Linux Implementation**:
+    -   Checks multiple common installation paths, including standard, Flatpak, and Snap directories.
+    -   Uses parallel asynchronous checks for efficient detection.
+-   **macOS Implementation**:
+    -   Looks for the Steam directory in the user's `Library/Application Support` folder.
+    -   Also checks the system-wide `Library/Application Support` directory.
 
 ## Acknowledgements
 
@@ -116,4 +116,4 @@ This project is licensed under the **MIT License**.
 
 ---
 
-*Note: This library requires Node.js version **20** or higher to utilize the latest features and improvements in the `fs` module and asynchronous operations.*
+_Note: This library requires Node.js version **20** or higher to utilize the latest features and improvements in the `fs` module and asynchronous operations._
