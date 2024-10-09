@@ -175,6 +175,18 @@ describe("locateSteamDir on macOS", () => {
 });
 
 describe("locateSteamDir on unsopported platform", () => {
+    beforeAll(() => {
+        Object.defineProperty(process, "platform", {
+            value: "freebsd",
+        });
+    });
+
+    afterAll(() => {
+        Object.defineProperty(process, "platform", {
+            value: originalPlatform,
+        });
+    });
+
     test("should throw an error if Steam directory is not found", async () => {
         Object.defineProperty(process, "platform", {
             value: "freebsd",
