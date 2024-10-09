@@ -180,8 +180,6 @@ describe("locateSteamDir on unsopported platform", () => {
             value: "freebsd",
         });
 
-        await expect(locateSteamDir()).rejects.toThrow(
-            "Unsupported platform",
-        );
+        await expect(locateSteamDir()).rejects.toThrow("Unsupported platform");
     });
 });
