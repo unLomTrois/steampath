@@ -1,4 +1,5 @@
 import { findInRegistry } from "./utils/findInRegistry";
+import fs from "fs/promises";
 
 /**
  * Locates the Steam directory on a Windows system
@@ -6,6 +7,24 @@ import { findInRegistry } from "./utils/findInRegistry";
  * @returns The path to the Steam directory
  */
 export async function locateSteamDirWindows(): Promise<string> {
+    // first, try to check C:\Program Files (x86)\Steam
+    const commonPath = "C:\\Program Files (x86)\\Steam";
+
+    const isCommonPath = await fs
+        .access(commonPath, fs.constants.F_OK)
+        .then(() => true)
+        .catch(() => false);
+
+    if (isCommonPath) {
+        return commonPath;
+    }
+
+    // if not found, try to look for it in windows registry
+    return locateSteamDirWindowsUsingRegistry();
+}
+
+/* using registry */
+async function locateSteamDirWindowsUsingRegistry(): Promise<string> {
     const REG_STEAM_PATH_32 = "HKLM\\SOFTWARE\\Valve\\Steam";
     const REG_STEAM_PATH_64 = "HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam";
 
