@@ -5,7 +5,7 @@ export default defineConfig({
     test: {
         coverage: {
             provider: "istanbul",
-            reporter: ["text-summary"],
+            reporter: ["text","text-summary"],
         },
     },
 });
