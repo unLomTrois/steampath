@@ -66,8 +66,8 @@ jobs:
               uses: schneegans/dynamic-badges-action@v1.7.0
               with:
                 auth: ${{ secrets.GIST_SECRET }}
-                gistID: d0fa3d5f92b0fd0a2b3d7793fdb22699
-                filename: test.json
+                gistID: 04d82ee409900594c4dff542b597999d
+                filename: steampath_coverage.json
                 label: Test Coverage
                 message: ${{ env.COVERAGE }}
                 color: green
