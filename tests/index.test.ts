@@ -173,3 +173,15 @@ describe("locateSteamDir on macOS", () => {
         );
     });
 });
+
+describe("locateSteamDir on unsopported platform", () => {
+    test("should throw an error if Steam directory is not found", async () => {
+        Object.defineProperty(process, "platform", {
+            value: "freebsd",
+        });
+
+        await expect(locateSteamDir()).rejects.toThrow(
+            "Unsupported platform",
+        );
+    });
+});
