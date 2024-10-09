@@ -1,6 +1,6 @@
 # steampath
 
-![TEST](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/unLomTrois/04d82ee409900594c4dff542b597999d/raw/ steampath_coverage.json)
+![TEST](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/unLomTrois/04d82ee409900594c4dff542b597999d/raw/steampath_coverage.json)
 
 [![CI](https://github.com/unLomTrois/steampath/actions/workflows/ci.yml/badge.svg)](https://github.com/unLomTrois/steampath/actions/workflows/ci.yml)
 
