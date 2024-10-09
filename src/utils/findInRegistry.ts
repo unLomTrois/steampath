@@ -3,7 +3,7 @@ import { promisify } from "util";
 
 const execAsync = promisify(exec);
 
-export async function getInstallPath(regPath: string): Promise<string | null> {
+export async function findInRegistry(regPath: string): Promise<string | null> {
     const command = `reg query "${regPath}" /v InstallPath`;
     try {
         const { stdout } = await execAsync(command);

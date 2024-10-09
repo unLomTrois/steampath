@@ -1,4 +1,4 @@
-import { getInstallPath } from "./utils/getInstallPath";
+import { findInRegistry } from "./utils/findInRegistry";
 
 /**
  * Locates the Steam directory on a Windows system
@@ -11,8 +11,8 @@ export async function locateSteamDirWindows(): Promise<string> {
 
     // Try to get the Steam install path from the registry
 
-    const win32 = await getInstallPath(REG_STEAM_PATH_32);
-    const win64 = await getInstallPath(REG_STEAM_PATH_64);
+    const win32 = await findInRegistry(REG_STEAM_PATH_32);
+    const win64 = await findInRegistry(REG_STEAM_PATH_64);
     const steamDir = win32 ?? win64;
 
     if (!steamDir) {

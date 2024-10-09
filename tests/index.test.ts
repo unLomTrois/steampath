@@ -10,7 +10,7 @@ import {
 } from "vitest";
 import mockFs from "mock-fs";
 import { locateSteamDir } from "src/locateSteamDir";
-import { getInstallPath } from "src/utils/getInstallPath";
+import { findInRegistry } from "src/utils/findInRegistry";
 
 const originalPlatform = process.platform;
 const originalHome = process.env.HOME;
@@ -204,7 +204,7 @@ describe.skip("unmocked getInstallPath", () => {
         }
 
         expect(
-            await getInstallPath("HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam"),
+            await findInRegistry("HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam"),
         ).toBe("C:\\Program Files (x86)\\Steam");
     });
 });
