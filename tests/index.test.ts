@@ -13,11 +13,14 @@ import { locateSteamDir } from "src/locateSteamDir";
 
 const originalPlatform = process.platform;
 const originalHome = process.env.HOME;
+const originalUserProfile = process.env.USERPROFILE;
 
-describe("locateSteamDir", () => {
+describe("locateSteamDir on linux", () => {
     beforeEach(() => {
         // Set the HOME environment variable
+        // todo: replace with mock-os
         process.env.HOME = "/home/user";
+        process.env.USERPROFILE = "/home/user";
 
         // Mock the platform to be Linux
         Object.defineProperty(process, "platform", {
@@ -36,6 +39,7 @@ describe("locateSteamDir", () => {
 
         // Restore the original HOME environment variable
         process.env.HOME = originalHome;
+        process.env.USERPROFILE = originalUserProfile;
     });
 
     test("should locate Steam in standard install directory", async () => {
@@ -86,7 +90,9 @@ describe("locateSteamDir", () => {
 
 describe("locateSteamDir on Windows", () => {
     beforeAll(() => {
+        // todo: replace with mock-os
         process.env.HOME = "C:\\Users\\User";
+        process.env.USERPROFILE = "C:\\Users\\User";
 
         Object.defineProperty(process, "platform", {
             value: "win32",
@@ -125,7 +131,10 @@ describe("locateSteamDir on Windows", () => {
 
 describe("locateSteamDir on macOS", () => {
     beforeAll(() => {
-        process.env.HOME = "/Users/user";
+        // Set the HOME environment variable
+        // todo: replace with mock-os
+        process.env.HOME = "/home/user";
+        process.env.USERPROFILE = "/Users/user";
 
         Object.defineProperty(process, "platform", {
             value: "darwin",
@@ -139,18 +148,20 @@ describe("locateSteamDir on macOS", () => {
         });
     });
 
+    afterAll(() => {
+        mockFs.restore();
+        process.env.HOME = originalHome;
+        process.env.USERPROFILE = originalUserProfile;
+
+        Object.defineProperty(process, "platform", {
+            value: originalPlatform,
+        });
+    });
+
     test("should return the path to the steam directory", async () => {
         const steamDir = await locateSteamDir();
         expect(steamDir).toMatch(
             /\/Users\/\w+\/Library\/Application Support\/Steam/,
         );
-    });
-
-    afterAll(() => {
-        mockFs.restore();
-
-        Object.defineProperty(process, "platform", {
-            value: originalPlatform,
-        });
     });
 });
