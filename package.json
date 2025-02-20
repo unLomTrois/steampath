@@ -1,7 +1,8 @@
 {
     "name": "@unlomtrois/steampath",
-    "version": "1.0.5",
-    "main": "dist/index.js",
+    "version": "1.0.6",
+    "main": "dist/index.cjs",
+    "module": "dist/index.js",
     "type": "module",
     "scripts": {
         "ci": "npm run lint && npm run format && npm run build && npm run test",
@@ -16,7 +17,8 @@
         "./package.json": "./package.json",
         ".": {
             "import": "./dist/index.js",
-            "default": "./dist/index.cjs"
+            "require": "./dist/index.cjs",
+            "types": "./dist/index.d.ts"
         }
     },
     "files": [
