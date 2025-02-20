@@ -63,7 +63,7 @@ jobs:
                   echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
 
             - name: Create the Badge
-              uses: schneegans/dynamic-badges-action@v1.7.0
+              uses: schneegans/dynamic-badges-action@7142847813c746736c986b42dec98541e49a2cea #v1.7.0
               with:
                   auth: ${{ secrets.GIST_SECRET }}
                   gistID: 04d82ee409900594c4dff542b597999d
